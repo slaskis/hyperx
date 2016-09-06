@@ -28,6 +28,17 @@ test('div > span selfclosing', function (t) {
   t.end()
 })
 
+// This test fails with:
+//
+//  Error: multiple root elements must be wrapped in an enclosing tag
+//
+test.skip('div > multi br', function (t) {
+  var expected = ['div', {}, [['br', {}, []], ['br', {}, []]]]
+  var actual = hx`<div><br></br><br></br></div>`
+  t.deepEqual(actual, expected)
+  t.end()
+})
+
 test('div > multi span', function (t) {
   var expected = ['div', {}, [['span', {}, []], ['span', {}, []]]]
   var actual = hx`<div><span></span><span></span></div>`
@@ -38,6 +49,13 @@ test('div > multi span', function (t) {
 test('div > multi div', function (t) {
   var expected = ['div', {}, [['div', {}, []], ['div', {}, []]]]
   var actual = hx`<div><div></div><div></div></div>`
+  t.deepEqual(actual, expected)
+  t.end()
+})
+
+test('div > multi br selfclosing', function (t) {
+  var expected = ['div', {}, [['br', {}, []], ['br', {}, []]]]
+  var actual = hx`<div><br /><br /></div>`
   t.deepEqual(actual, expected)
   t.end()
 })
@@ -100,7 +118,7 @@ test('TagList selfclosing', function (t) {
 
 test('TagList > multi div selfclosing', function (t) {
   var expected = ['TagList', {}, [['div', {}, []], ['div', {}, []]]]
-  var actual = hx`<TagList />`
+  var actual = hx`<TagList><div /><div /></TagList>`
   t.deepEqual(actual, expected)
   t.end()
 })
